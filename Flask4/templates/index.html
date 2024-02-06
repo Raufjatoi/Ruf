@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Ruf Bot</title>
+</head>
+<body>
+    <h1>Ruf Bot</h1>
+
+    <div class="section-links">
+        <a href="{{ url_for('wikiRuf') }}"><h2>WikiRuf Section</h2></a>
+        <a href="{{ url_for('ruffyWeather') }}"><h2>RuffyWeather Section</h2></a>
+        <a href="{{ url_for('newsR') }}"><h2>NewsR Section</h2></a>
+        <a href="{{ url_for('stackY') }}"><h2>StackY Section</h2></a>
+    </div>
+    <p class="watermark">Ruf by rauf</p>
+</body>
+</html>

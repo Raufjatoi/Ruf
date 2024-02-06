@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+    background-image: url("i2.jpg"); /* Corrected background image syntax */
+    position: relative;
+}
+
+
+h1 {
+    color: #800080;  /* Dark purple color for Ruf Bot heading */
+    font-size: 40px;  /* Increase font size */
+}
+
+.section-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: purple;
+    margin: 10px;
+}
+
+/* Oval border with shining effect for the four blocks */
+a:hover {
+    background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+    border-radius: 20px;
+}
+
+/* Circular border for the h2 headings */
+h2 {
+    border: 2px solid purple;
+    border-radius: 50px;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    transition: background-color 0.3s ease-in-out;  /* Smooth transition for background color change */
+}
+
+/* Hover effect for the circular border */
+h2:hover {
+    color: #ffffff;  /* White text on hover */
+}
+
+/* Hover colors for each block */
+a:nth-child(1):hover h2 {
+    background-color: #007BFF;  /* Blue for the first block */
+}
+
+a:nth-child(2):hover h2 {
+    background-color: #28a745;  /* Green for the second block */
+}
+
+a:nth-child(3):hover h2 {
+    background-color: #fd7e14;  /* Orange for the third block */
+}
+
+a:nth-child(4):hover h2 {
+    background-color: #6c757d;  /* Grey for the fourth block */
+}
+
+/* Watermark */
+.watermark {
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    font-size: 70px;
+    color: purple;
+    transform: rotate(-45deg); /* Rotate the watermark for better appearance */
+    opacity: 0.3; /* Adjust the opacity of the watermark */
+}

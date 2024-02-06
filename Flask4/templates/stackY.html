@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>RuffyWeather section</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='i5.jpg') }}');
+            background-size: 200%; /* Adjust the zoom level */
+        }
+
+        .back-button h2, #send-button, .interaction {
+            transition: background-color 0.5s, color 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="back-button">
+        <a href="{{ url_for('index') }}" class="purple">
+            <h2 class="block" style="color: purple; background-color: gray;" onmouseover="this.style.backgroundColor='black'; this.style.color='white'" onmouseout="this.style.backgroundColor='gray'; this.style.color='purple'">Back</h2>
+        </a>
+    </div>
+
+    <div class="wiki-ruf-section">
+        <h1 style="color: black; font-size: 40px;">StackY</h1>
+        <h5 style="color: black; font-size: 18px;">codin Stuffs</h5>
+        <p style="color: black; font-size: 32px;">Welcome to StackY! Ask me anything about codin stuffs, and I'll do my best to provide information from the internet.</p>
+
+        <div class="interaction" style="background: gray;">
+            <div id="user-input-block">
+                <input type="text" id="user-input" placeholder="Ask a question..." style="color: black; font-size: 20px;" onkeyup="handleKeyPress(event)">
+                <button onclick="sendQuestion()" onmouseover="hoverButton()" onmouseout="unhoverButton()" id="send-button" style="color: purple; background-color: gray; font-size: 20px; padding: 12px 24px;">Send</button>
+            </div>
+            <div id="message-block" style="font-size: 28px; padding: 20px;"></div>
+        </div>
+    </div>
+
+    <p class="watermark-white" style="color: black; font-size: 28px;">Ruf by <a href='https://github.com/Raufjatoi' style="color: gray;">rauf</a></p>
+
+    <script>
+        function sendQuestion() {
+            // Get user input
+            var userInput = document.getElementById("user-input").value;
+
+            // Example: Send the user input to a server/API and get a response
+            // For simplicity, I'll just display the question as a response
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML += `<p style="color: black; font-size: 20px;">User: ${userInput}</p>`;
+            document.getElementById("user-input").value = ""; // Clear input
+
+            // Simulate bot response (replace this with your actual bot response logic)
+            var botResponse = "I'm a bot. Here's a sample response.";
+            messageBlock.innerHTML += `<p style="color: purple; font-size: 24px;">Bot: ${botResponse}</p>`;
+        }
+
+        function hoverButton() {
+            document.getElementById("send-button").style.backgroundColor = "black";  /* Darker black on hover */
+            document.getElementById("send-button").style.color = "white";  /* White text on hover */
+        }
+
+        function unhoverButton() {
+            document.getElementById("send-button").style.backgroundColor = "gray";  /* Original color on mouseout */
+            document.getElementById("send-button").style.color = "purple";  /* Purple text on mouseout */
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendQuestion();
+            }
+        }
+    </script>
+
+</body>
+
+</html>

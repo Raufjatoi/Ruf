@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title style="color: skyblue;">WikiRuf Section</title>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='i1.jpg') }}');">
+
+
+    <div class="back-button">
+        <a href="{{ url_for('index') }}" class="blue"><h2 class="block" style="color: white;">Back</h2></a>
+    </div>
+
+    <div class="wiki-ruf-section">
+        <h1 style="color: blue; font-size: 40px;">WikiRuf</h1>
+        <h5 style="color: white; font-size: 18px;">Wikipedia Stuffs</h5>
+        <p style="color: blue; font-size: 32px;">Welcome to WikiRuf! Ask me anything, and I'll do my best to provide information from Wikipedia.</p>
+
+        <div class="interaction" style="background: skyblue;">
+            <div id="user-input-block">
+                <input type="text" id="user-input" placeholder="Ask a question..." style="color: blue; font-size: 20px;" onkeyup="handleKeyPress(event)">
+                <button onclick="sendQuestion()" onmouseover="hoverButton()" onmouseout="unhoverButton()" id="send-button" style="color: white; background-color: skyblue; font-size: 20px; padding: 12px 24px;">Send</button>
+            </div>
+            <div id="message-block" style="font-size: 28px; padding: 20px;"></div>
+        </div>
+    </div>
+
+    <p class="watermark-white" style="color: blue; font-size: 28px;">Ruf by <a href='https://github.com/Raufjatoi' style="color: white;">rauf</a></p>
+
+    <script>
+        function sendQuestion() {
+            // Get user input
+            var userInput = document.getElementById("user-input").value;
+
+            // Example: Send the user input to a server/API and get a response
+            // For simplicity, I'll just display the question as a response
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML += `<p style="color: blue; font-size: 20px;">User: ${userInput}</p>`;
+            document.getElementById("user-input").value = ""; // Clear input
+
+            // Simulate bot response (replace this with your actual bot response logic)
+            var botResponse = "I'm a bot. Here's a sample response.";
+            messageBlock.innerHTML += `<p style="color: purple; font-size: 24px;">Bot: ${botResponse}</p>`;
+        }
+
+        function hoverButton() {
+            document.getElementById("send-button").style.backgroundColor = "#0056b3";  /* Darker blue on hover */
+        }
+
+        function unhoverButton() {
+            document.getElementById("send-button").style.backgroundColor = "skyblue";  /* Original color on mouseout */
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendQuestion();
+            }
+        }
+    </script>
+
+</body>
+
+</html>
