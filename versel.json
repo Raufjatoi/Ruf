@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "app.py",
+        "src": "wsgi.py",
         "use": "@vercel/python"
       },
       {
@@ -17,23 +17,23 @@
     "routes": [
       {
         "src": "/get_wikipedia_data",
-        "dest": "/app.py"
+        "dest": "/wsgi.py"
       },
       {
         "src": "/get_stack_overflow_data",
-        "dest": "/app.py"
+        "dest": "/wsgi.py"
       },
       {
         "src": "/get_news_data",
-        "dest": "/app.py"
+        "dest": "/wsgi.py"
       },
       {
         "src": "/get_weather",
-        "dest": "/app.py"
+        "dest": "/wsgi.py"
       },
       {
         "src": "/(.*)",
-        "dest": "/app.py"
+        "dest": "/wsgi.py"
       }
     ]
   }
