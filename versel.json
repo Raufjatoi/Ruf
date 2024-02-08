@@ -1,0 +1,40 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "app.py",
+        "use": "@vercel/python"
+      },
+      {
+        "src": "static/**",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "templates/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/get_wikipedia_data",
+        "dest": "/app.py"
+      },
+      {
+        "src": "/get_stack_overflow_data",
+        "dest": "/app.py"
+      },
+      {
+        "src": "/get_news_data",
+        "dest": "/app.py"
+      },
+      {
+        "src": "/get_weather",
+        "dest": "/app.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/app.py"
+      }
+    ]
+  }
+  
