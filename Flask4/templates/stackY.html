@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>RuffyWeather section</title>
+    <title>StackY section</title>
     <style>
         body {
             background-image: url('{{ url_for('static', filename='i5.jpg') }}');
@@ -29,7 +29,7 @@
     <div class="wiki-ruf-section">
         <h1 style="color: black; font-size: 40px;">StackY</h1>
         <h5 style="color: black; font-size: 18px;">codin Stuffs</h5>
-        <p style="color: black; font-size: 32px;">Welcome to StackY! Ask me anything about codin stuffs, and I'll do my best to provide information from the internet.</p>
+        <p style="color: black; font-size: 32px;">Welcome to StackY! Ask me anything about coding stuff, and I'll do my best to provide information from Stack Overflow.</p>
 
         <div class="interaction" style="background: gray;">
             <div id="user-input-block">
@@ -43,19 +43,45 @@
     <p class="watermark-white" style="color: black; font-size: 28px;">Ruf by <a href='https://github.com/Raufjatoi' style="color: gray;">rauf</a></p>
 
     <script>
-        function sendQuestion() {
+        async function sendQuestion() {
             // Get user input
             var userInput = document.getElementById("user-input").value;
 
-            // Example: Send the user input to a server/API and get a response
-            // For simplicity, I'll just display the question as a response
-            var messageBlock = document.getElementById("message-block");
-            messageBlock.innerHTML += `<p style="color: black; font-size: 20px;">User: ${userInput}</p>`;
-            document.getElementById("user-input").value = ""; // Clear input
+            // Clear previous messages
+            clearMessages();
 
-            // Simulate bot response (replace this with your actual bot response logic)
-            var botResponse = "I'm a bot. Here's a sample response.";
-            messageBlock.innerHTML += `<p style="color: purple; font-size: 24px;">Bot: ${botResponse}</p>`;
+            // Display user question
+            displayMessage("User", userInput);
+
+            // Call Stack Overflow API and get response
+            try {
+                const response = await fetch(`{{ url_for('get_stack_overflow_data') }}?query=${encodeURIComponent(userInput)}`);
+                const data = await response.json();
+
+                // Display bot response
+                if (data.items && data.items.length > 0) {
+                    const botResponse = data.items[0].title;
+                    displayMessage("Bot", botResponse, 'purple');
+                } else {
+                    displayMessage("Bot", "I'm sorry, but I couldn't find information on that topic.", 'purple');
+                }
+            } catch (error) {
+                console.error("Error fetching data from Stack Overflow API:", error);
+                displayMessage("Bot", "I'm sorry, but there was an error processing your request.", 'purple');
+            }
+
+            // Clear user input
+            document.getElementById("user-input").value = "";
+        }
+
+        function displayMessage(sender, message, color) {
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML += `<p style="color: ${sender === 'User' ? 'blue' : color}; font-size: 20px;">${sender}: ${message}</p>`;
+        }
+
+        function clearMessages() {
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML = "";
         }
 
         function hoverButton() {

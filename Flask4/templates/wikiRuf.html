@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title style="color: skyblue;">WikiRuf Section</title>
 </head>
-<body style="background-image: url('{{ url_for('static', filename='i1.jpg') }}');">
 
+<body style="background-image: url('{{ url_for('static', filename='i1.jpg') }}');">
 
     <div class="back-button">
         <a href="{{ url_for('index') }}" class="blue"><h2 class="block" style="color: white;">Back</h2></a>
@@ -31,19 +31,51 @@
     <p class="watermark-white" style="color: blue; font-size: 28px;">Ruf by <a href='https://github.com/Raufjatoi' style="color: white;">rauf</a></p>
 
     <script>
-        function sendQuestion() {
+        async function sendQuestion() {
             // Get user input
             var userInput = document.getElementById("user-input").value;
 
-            // Example: Send the user input to a server/API and get a response
-            // For simplicity, I'll just display the question as a response
-            var messageBlock = document.getElementById("message-block");
-            messageBlock.innerHTML += `<p style="color: blue; font-size: 20px;">User: ${userInput}</p>`;
-            document.getElementById("user-input").value = ""; // Clear input
+            // Clear previous messages
+            clearMessages();
 
-            // Simulate bot response (replace this with your actual bot response logic)
-            var botResponse = "I'm a bot. Here's a sample response.";
-            messageBlock.innerHTML += `<p style="color: purple; font-size: 24px;">Bot: ${botResponse}</p>`;
+            // Display user question
+            displayMessage("User", userInput);
+
+            // Call Wikipedia API and get response
+            try {
+                const response = await fetch(`{{ url_for('get_wikipedia_data') }}?query=${encodeURIComponent(userInput)}`);
+                const data = await response.json();
+
+                if (data.query.pages) {
+                    const pageId = Object.keys(data.query.pages)[0];
+                    const botResponse = data.query.pages[pageId].extract;
+
+                    // Display bot response
+                    if (botResponse) {
+                        displayMessage("Bot", botResponse, 'purple');
+                    } else {
+                        displayMessage("Bot", "I'm sorry, but I couldn't find information on that topic.", 'purple');
+                    }
+                } else {
+                    displayMessage("Bot", "I'm sorry, but I couldn't find information on that topic.", 'purple');
+                }
+            } catch (error) {
+                console.error("Error fetching data from Wikipedia API:", error);
+                displayMessage("Bot", "I'm sorry, but there was an error processing your request.", 'purple');
+            }
+
+            // Clear user input
+            document.getElementById("user-input").value = "";
+        }
+
+        function displayMessage(sender, message, color) {
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML += `<p style="color: ${sender === 'User' ? 'blue' : color}; font-size: 20px;">${sender}: ${message}</p>`;
+        }
+
+        function clearMessages() {
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML = "";
         }
 
         function hoverButton() {

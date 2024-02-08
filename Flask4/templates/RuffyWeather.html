@@ -10,6 +10,21 @@
         .back-button h2, #send-button, .interaction {
             transition: background-color 0.5s;
         }
+
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid darkgreen;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -30,6 +45,7 @@
             <div id="user-input-block">
                 <input type="text" id="user-input" placeholder="Ask a question..." style="color: green; font-size: 20px;" onkeyup="handleKeyPress(event)">
                 <button onclick="sendQuestion()" onmouseover="hoverButton()" onmouseout="unhoverButton()" id="send-button" style="color: white; background-color: lightgreen; font-size: 20px; padding: 12px 24px;">Send</button>
+                <div id="loader" class="loader"></div>
             </div>
             <div id="message-block" style="font-size: 28px; padding: 20px;"></div>
         </div>
@@ -38,19 +54,51 @@
     <p class="watermark-white" style="color: green; font-size: 28px;">Ruf by <a href='https://github.com/Raufjatoi' style="color: white;">rauf</a></p>
 
     <script>
-        function sendQuestion() {
+        async function sendQuestion() {
             // Get user input
             var userInput = document.getElementById("user-input").value;
 
-            // Example: Send the user input to a server/API and get a response
-            // For simplicity, I'll just display the question as a response
-            var messageBlock = document.getElementById("message-block");
-            messageBlock.innerHTML += `<p style="color: green; font-size: 20px;">User: ${userInput}</p>`;
-            document.getElementById("user-input").value = ""; // Clear input
+            // Clear previous messages
+            clearMessages();
 
-            // Simulate bot response (replace this with your actual bot response logic)
-            var botResponse = "I'm a bot. Here's a sample response.";
-            messageBlock.innerHTML += `<p style="color: purple; font-size: 24px;">Bot: ${botResponse}</p>`;
+            // Display user question
+            displayMessage("User", userInput);
+
+            // Display loader while fetching data
+            document.getElementById("loader").style.display = "block";
+
+            // Call Open-Meteo API and get response
+            try {
+                const response = await fetch(`{{ url_for('get_weather') }}?city=${encodeURIComponent(userInput)}`);
+                const data = await response.json();
+
+                // Display bot response
+                if (data.weather) {
+                    const botResponse = data.weather;
+                    displayMessage("Bot", botResponse, 'purple');
+                } else {
+                    displayMessage("Bot", "I'm sorry, but I couldn't find weather information for that city.", 'purple');
+                }
+            } catch (error) {
+                console.error("Error fetching data from Open-Meteo API:", error);
+                displayMessage("Bot", "I'm sorry, but there was an error processing your request.", 'purple');
+            }
+
+            // Hide loader after fetching data
+            document.getElementById("loader").style.display = "none";
+
+            // Clear user input
+            document.getElementById("user-input").value = "";
+        }
+
+        function displayMessage(sender, message, color) {
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML += `<p style="color: ${sender === 'User' ? 'blue' : color}; font-size: 20px;">${sender}: ${message}</p>`;
+        }
+
+        function clearMessages() {
+            var messageBlock = document.getElementById("message-block");
+            messageBlock.innerHTML = "";
         }
 
         function hoverButton() {
