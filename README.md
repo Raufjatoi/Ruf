@@ -29,3 +29,8 @@ Use Ruf to get access information from different sections:
 - `stackY "question"` : Search for solutions on Stack Overflow.
 - `newsR "topic"` : Retrieve relevant news articles.
 - `Ruffywhaether "location"` : Get current weather updates.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
